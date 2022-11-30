@@ -6,10 +6,11 @@ import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import lombok.Value;
+import lombok.val;
 
 import java.util.Locale;
 
-import static io.restassured.RestAssured.*;
+import static io.restassured.RestAssured.given;
 
 public class DataGenerator {
     private static final RequestSpecification requestSpec = new RequestSpecBuilder()
@@ -24,33 +25,36 @@ public class DataGenerator {
     private DataGenerator() {
     }
 
-    private static void sendRequest(RegistrationDto registeredUser) {
-        given().
-                spec(requestSpec).
-                body(registeredUser).
-                when().
-                post("/api/system/users").
-                then().
-                statusCode(200);
+
+    private static void sendRequest(RegistrationDto user) {
+        given()
+                .spec(requestSpec)
+                .body(user)
+                .when()
+                .post("/api/system/users")
+                .then()
+                .statusCode(200);
+
     }
 
     public static String getRandomLogin() {
-        String login = faker.name().username();
-        return login;
+        return faker.name().firstName();
     }
 
     public static String getRandomPassword() {
-        String password = faker.internet().password();
-        return password;
+        return faker.internet().password();
     }
 
     public static class Registration {
         private Registration() {
         }
 
+        public static RegistrationDto getUser(String status) {
+            return new RegistrationDto(getRandomLogin(),getRandomPassword(), status);
+        }
+
         public static RegistrationDto getRegisteredUser(String status) {
-            RegistrationDto notRegisteredUser = new RegistrationDto(getRandomLogin(), getRandomPassword(), status);
-            RegistrationDto registeredUser = new RegistrationDto(getRandomLogin(), getRandomPassword(), status);
+            RegistrationDto registeredUser = getUser(status);
             sendRequest(registeredUser);
             return registeredUser;
         }
