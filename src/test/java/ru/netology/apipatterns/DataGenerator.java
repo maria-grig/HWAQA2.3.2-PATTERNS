@@ -49,7 +49,7 @@ public class DataGenerator {
         }
 
         public static RegistrationDto getUser(String status) {
-            return new RegistrationDto(getRandomLogin(),getRandomPassword(), status);
+            return new RegistrationDto(getRandomLogin(), getRandomPassword(), status);
         }
 
         public static RegistrationDto getRegisteredUser(String status) {

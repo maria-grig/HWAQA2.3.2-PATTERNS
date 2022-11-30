@@ -1,12 +1,13 @@
 package ru.netology.apipatterns;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
 
-import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
 import static org.openqa.selenium.devtools.v105.network.Network.clearBrowserCookies;
 import static ru.netology.apipatterns.DataGenerator.Registration.getRegisteredUser;
@@ -29,7 +30,7 @@ class AuthTest {
     }
 
     @Test
-       void shouldSuccessfullyLoginRegisteredActiveUser() {
+    void shouldSuccessfullyLoginRegisteredActiveUser() {
         var registeredUser = getRegisteredUser("active");
         $("[data-test-id='login'] input").setValue(registeredUser.getLogin());
         $("[data-test-id='password'] input").setValue(registeredUser.getPassword());
@@ -74,7 +75,7 @@ class AuthTest {
     }
 
     @Test
-        void shouldFailWithInvalidPassword() {
+    void shouldFailWithInvalidPassword() {
         var registeredUser = getRegisteredUser("active");
         /*        var wrongPassword = getRandomPassword();*/
         $("[data-test-id='login'] input").setValue(registeredUser.getLogin());
